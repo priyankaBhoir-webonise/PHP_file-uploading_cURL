@@ -21,11 +21,16 @@
 			$allowed_types=array('image/jpeg','image/jpg','image/png','application/pdf','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',' application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 			$tmp=$_FILES['file']['tmp_name'];
 			$dst="/var/www/{$_POST['name']}";
+			$newdst="/var/www/thumb_{$_POST['name']}";
 				if(($_FILES['file']['error']<=0) and (in_array($_POST['type'],$allowed_types)))
 					{			
 							if (move_uploaded_file($tmp, $dst)) {
        	 							// Success !!
-								echo '<br><hr>File is uploaded successfully. you can find the file at '.$dst;
+								$image = new Imagick($dst);
+								if ($image->thumbnailImage(100,100)===true){
+										echo '<br><hr>File is uploaded successfully. you can find the file at '.$dst;
+										$image->writeImage($newdst);
+								}
     							 }			
 					}
 					else
