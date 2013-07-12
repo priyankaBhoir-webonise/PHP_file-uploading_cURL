@@ -1,5 +1,5 @@
 <?php 
-	//--------------- jpeg,jpg,png,xlsx,docx are only allow to upload-------------------------------------------
+	//--------------- jpeg,jpg,png are only allow to upload-------------------------------------------
 	
 	function my_error_handler($errno,$errmsg,$errfile,$errline)				// user defined function for error handling
 		{
@@ -18,7 +18,7 @@
 				
 		}	
 	function upload_file(){
-			$allowed_types=array('image/jpeg','image/jpg','image/png','application/pdf','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',' application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+			$allowed_types=array('image/jpeg','image/jpg','image/png');
 			$tmp=$_FILES['file']['tmp_name'];
 			$dst="/var/www/{$_POST['name']}";
 			$newdst="/var/www/thumb_{$_POST['name']}";
@@ -28,8 +28,9 @@
        	 							// Success !!
 								$image = new Imagick($dst);
 								if ($image->thumbnailImage(100,100)===true){
-										echo '<br><hr>File is uploaded successfully. you can find the file at '.$dst;
+										echo '<br><hr>File is uploaded successfully. you can find the image at '.$dst;
 										$image->writeImage($newdst);
+										echo '<br>You can find the thumbnail image at '.$dst;
 								}
     							 }			
 					}
